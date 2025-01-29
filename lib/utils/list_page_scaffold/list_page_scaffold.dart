@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:timetable_app_generaly/utils/list_page_scaffold/loaded_state_element.dart';
 import 'package:timetable_app_generaly/utils/list_page_scaffold/loading_state_element.dart';
 
-class ListPageScaffold extends StatelessWidget {
+class ListPageScaffold<T> extends StatelessWidget {
   final Widget? title;
   final bool isLoading;
-  final List<Object>? items;
-  final Widget? Function(BuildContext context, Object item)? itemBuilder;
+  final List<T>? items;
+  final Widget? Function(BuildContext context, dynamic item)? itemBuilder;
 
   final Widget? addDialog;
 
@@ -24,11 +24,11 @@ class ListPageScaffold extends StatelessWidget {
       appBar: AppBar(
         title: title,
         foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: _buildFloatingActionButton(context),
-      body: _buildBody(),
+      body: Center(child: SizedBox(width: 950, child: _buildBody())),
     );
   }
 
@@ -54,7 +54,7 @@ class ListPageScaffold extends StatelessWidget {
       return LoadingStateElement();
     } else {
       try {
-        return LoadedStateElement(
+        return LoadedStateElement<T>(
           items: items!,
           itemBuilder: itemBuilder!,
           filterFunc: (searchString, item) =>
